@@ -15,6 +15,7 @@ Directory Analyzer is a C++ command-line tool designed to provide insights into 
 - **CSV Export**: Export detailed analysis results to CSV format for further processing or reporting.
 - **User-Friendly Console Output**: Colorized and well-formatted console output for easy reading and interpretation of results.
 - **Efficient Performance**: Optimized for speed and low resource usage, capable of handling large directory structures.
+- **Multithreaded Processing**: Parallel directory scanning for faster analysis of large file systems.
 
 ## Use Cases
 
@@ -53,14 +54,15 @@ g++ -std=c++17 da.cpp -o da
 - `-t, --type <type>`: File type to include (can be used multiple times)
 - `-s, --min-size <size>`: Minimum file size (e.g., 10K, 1M, 1.5G)
 - `-S, --max-size <size>`: Maximum file size (e.g., 100M, 2G)
+- `-j, --threads <count>`: Number of threads to use (default: all available cores)
 
 ### Example
 
 ```bash
-da -a -e node_modules -t .cpp -t .h -s 1K -S 1M -o results.csv /path/to/dir
+da -a -e node_modules -t .cpp -t .h -s 1K -S 1M -j 4 -o results.csv /path/to/dir
 ```
 
-This command will analyze the directory `/path/to/dir`, including hidden files, excluding the `node_modules` directory, only considering `.cpp` and `.h` files between 1KB and 1MB in size, and export the results to `results.csv`.
+This command will analyze the directory `/path/to/dir` using 4 threads, including hidden files, excluding the `node_modules` directory, only considering `.cpp` and `.h` files between 1KB and 1MB in size, and export the results to `results.csv`.
 
 ## Output
 
@@ -78,9 +80,10 @@ Additionally, it shows the overall statistics for all analyzed files.
 
 When using the `-o` option, the program exports detailed results to a CSV file, including:
 
-- File path
 - File type
-- File size
+- File count
+- Total size
+- Size in human-readable format
 
 ## Contributing
 
